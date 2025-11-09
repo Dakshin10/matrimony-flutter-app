@@ -1,106 +1,187 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
-import 'package:bright_weddings/View/Login/login_original_firebase.dart';
 
-class LoginHome extends StatelessWidget {
+import 'package:bright_weddings/View/Login/login_original_firebase.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:animate_do/animate_do.dart';
+
+class LoginHome extends StatefulWidget {
   const LoginHome({super.key});
+
+  @override
+  State<LoginHome> createState() => _LoginHomeState();
+}
+
+class _LoginHomeState extends State<LoginHome>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late Animation<double> _scaleAnimation;
+  String? selectedRole;
+  bool hide = false;
+
+  // Guard so we don't push multiple times if the animation completes repeatedly.
+  bool _isNavigating = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 30.0)
+        .animate(_scaleController)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed && !_isNavigating) {
+          _isNavigating = true;
+
+          // Determine target page based on selected role
+          final targetPage = (selectedRole == "Login")
+              ? LoginOriginalFirebase(startWithRegister: false)
+              : LoginOriginalFirebase(startWithRegister: true);
+
+          Navigator.push(
+            context,
+            PageTransition(type: PageTransitionType.fade, child: targetPage),
+          ).then((_) {
+            // When coming back, reset animation and show buttons again
+            if (mounted) {
+              setState(() {
+                hide = false;
+                selectedRole = null;
+              });
+              _scaleController.reverse(); // Animate back to original
+            }
+            _isNavigating = false;
+          });
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFFFA726),
-              Color(0xFFFF7043),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+          image: DecorationImage(
+            image: AssetImage('assets/images/brightWedding.png'),
+            fit: BoxFit.fill,
           ),
         ),
-        child: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              colors: [
+                Colors.black.withOpacity(.9),
+                Colors.black.withOpacity(.4),
+              ],
+            ),
+          ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(30.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/images/bv-mobile-banner.jpg',
-                    height: 250,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FadeInUp(
+                  duration: Duration(milliseconds: 1000),
+                  child: Text(
+                    "Connecting Hearts, Joining Lives",
+                    style: TextStyle(
+                      color: const Color.fromARGB(223, 241, 214, 214),
+                      height: 1.2,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 13),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      hide = true;
+                      selectedRole = "Login";
+                    });
+                    _scaleController.forward();
+                  },
+                  child: AnimatedBuilder(
+                    animation: _scaleController,
+                    builder: (context, child) => Transform.scale(
+                      scale: _scaleAnimation.value,
+                      child: FadeInUp(
+                        duration: Duration(milliseconds: 1500),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(223, 241, 214, 214),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: hide == false
+                                ? Text(
+                                    "Login",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
-                Text(
-                  "Bright Weddings",
-                  style: GoogleFonts.pacifico(
-                    fontSize: 40,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      hide = true;
+                      selectedRole = "Register";
+                    });
+                    _scaleController.forward();
+                  },
+                  child: AnimatedBuilder(
+                    animation: _scaleController,
+                    builder: (context, child) => Transform.scale(
+                      scale: _scaleAnimation.value,
+                      child: FadeInUp(
+                        duration: Duration(milliseconds: 1500),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(223, 241, 214, 214),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: hide == false
+                                ? Text(
+                                    "Register",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  "Find your perfect match with our trusted matrimony services.",
-                  style: GoogleFonts.roboto(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 40),
-                _buildActionButton(
-                  icon: Icons.login,
-                  label: "Login",
-                  colorStart: Color(0xFFF57C00),
-                  colorEnd: Color(0xFFE65100),
-                  onPressed: () => Get.to(
-                      () => LoginOriginalFirebase(startWithRegister: false)),
-                ),
-                SizedBox(height: 20),
-                _buildActionButton(
-                  icon: Icons.app_registration,
-                  label: "Register",
-                  colorStart: Color(0xFFEF5350),
-                  colorEnd: Color(0xFFD32F2F),
-                  onPressed: () => Get.to(
-                      () => LoginOriginalFirebase(startWithRegister: true)),
-                ),
+                SizedBox(height: 30),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required Color colorStart,
-    required Color colorEnd,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon, color: Colors.white),
-      label: Text(
-        label,
-        style: GoogleFonts.roboto(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        backgroundColor: colorStart,
-        foregroundColor: Colors.white,
-        elevation: 5,
       ),
     );
   }

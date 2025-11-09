@@ -43,7 +43,8 @@ class ProfileListTab extends StatelessWidget {
               children: [
                 Container(
                   width: screenWidth * 0.15,
-                  height: screenHeight * 0.15, // Made height and width proportional
+                  height:
+                      screenHeight * 0.15, // Made height and width proportional
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -72,10 +73,12 @@ class ProfileListTab extends StatelessWidget {
                           CircularBullet(),
                           SizedBox(width: 0.5.w),
                           Container(
-                            width: screenWidth * 0.2, // Limited width for address
+                            width:
+                                screenWidth * 0.2, // Limited width for address
                             child: Text(
                               user['address'],
-                              style: GoogleFonts.poppins(color: textColor, fontSize: 1.5.t),
+                              style: GoogleFonts.poppins(
+                                  color: textColor, fontSize: 1.5.t),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -86,7 +89,8 @@ class ProfileListTab extends StatelessWidget {
                             width: screenWidth * 0.2, // Limited width for age
                             child: Text(
                               user['age'],
-                              style: GoogleFonts.poppins(color: textColor, fontSize: 1.5.t),
+                              style: GoogleFonts.poppins(
+                                  color: textColor, fontSize: 1.5.t),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -94,10 +98,12 @@ class ProfileListTab extends StatelessWidget {
                           CircularBullet(),
                           SizedBox(width: 0.5.w),
                           Container(
-                            width: screenWidth * 0.2, // Limited width for education
+                            width: screenWidth *
+                                0.2, // Limited width for education
                             child: Text(
                               user['education'],
-                              style: GoogleFonts.poppins(color: textColor, fontSize: 1.5.t),
+                              style: GoogleFonts.poppins(
+                                  color: textColor, fontSize: 1.5.t),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -113,7 +119,8 @@ class ProfileListTab extends StatelessWidget {
                           width: screenWidth * 0.6, // Limited width for demands
                           child: Text(
                             user['demands'],
-                            style: GoogleFonts.poppins(color: textColor, fontSize: 1.5.t),
+                            style: GoogleFonts.poppins(
+                                color: textColor, fontSize: 1.5.t),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -129,13 +136,15 @@ class ProfileListTab extends StatelessWidget {
                             width: 15.w,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               border: Border.all(width: 1),
                             ),
                             child: Center(
                               child: Text(
                                 'View Full Profile',
-                                style: GoogleFonts.poppins(color: Colors.black, fontSize: 1.1.t),
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black, fontSize: 1.1.t),
                               ),
                             ),
                           ),
@@ -148,12 +157,14 @@ class ProfileListTab extends StatelessWidget {
                             width: 15.w,
                             decoration: BoxDecoration(
                               color: greenColor,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Center(
                               child: Text(
                                 'Get matches',
-                                style: GoogleFonts.poppins(color: Colors.white, fontSize: 1.1.t),
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white, fontSize: 1.1.t),
                               ),
                             ),
                           ),
