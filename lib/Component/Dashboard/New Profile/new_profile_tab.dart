@@ -11,7 +11,6 @@ class NewProfileTab extends StatelessWidget {
 
   @override
   Widget build(bodyContext) {
-
     return Container(
       width: 150.w,
       height: 25.h,
@@ -27,13 +26,12 @@ class NewProfileTab extends StatelessWidget {
                 width: 23.w,
                 height: 18.h,
                 decoration: BoxDecoration(
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(16))),
+                    borderRadius: BorderRadius.all(Radius.circular(16))),
                 child: Stack(children: [
                   ImageCard(imageUrl: user['image_url']),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -42,9 +40,9 @@ class NewProfileTab extends StatelessWidget {
                           child: Text(
                             user['full_name'],
                             style: GoogleFonts.poppins(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 2.t,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.normal,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -53,9 +51,7 @@ class NewProfileTab extends StatelessWidget {
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            user['address'] +
-                                '\t\t' +
-                                user['age'],
+                            user['address'] + '\t\t' + user['age'],
                             style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontSize: 1.0.t,
